@@ -1,0 +1,20 @@
+<Combine name="OAuth" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="OAuth" configuration="Debug" />
+      <Entry build="True" name="OAuthCli" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="OAuth" configuration="Release" />
+      <Entry build="True" name="OAuthCli" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="OAuth" single="True">
+    <Execute type="None" entry="OAuth" />
+    <Execute type="None" entry="OAuthCli" />
+  </StartMode>
+  <Entries>
+    <Entry filename="OAuth/OAuth.mdp" />
+    <Entry filename="OAuthCli/OAuthCli.mdp" />
+  </Entries>
+</Combine>
