@@ -4,25 +4,25 @@
       <Entry build="True" name="OAuth" configuration="Debug" />
       <Entry build="True" name="OAuthCli" configuration="Debug" />
       <Entry build="True" name="OAuthXmpp" configuration="Debug" />
-      <Entry build="True" name="FireEagleExample" configuration="Debug" />
+      <Entry build="True" name="Examples" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="True" name="OAuth" configuration="Release" />
       <Entry build="True" name="OAuthCli" configuration="Release" />
       <Entry build="True" name="OAuthXmpp" configuration="Release" />
-      <Entry build="True" name="FireEagleExample" configuration="Release" />
+      <Entry build="True" name="Examples" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="OAuth" single="True">
     <Execute type="None" entry="OAuth" />
     <Execute type="None" entry="OAuthCli" />
     <Execute type="None" entry="OAuthXmpp" />
-    <Execute type="None" entry="FireEagleExample" />
+    <Execute type="None" entry="Examples" />
   </StartMode>
   <Entries>
-    <Entry filename="OAuth/OAuth.mdp" />
-    <Entry filename="OAuthCli/OAuthCli.mdp" />
-    <Entry filename="OAuthXmpp/OAuthXmpp.mdp" />
-    <Entry filename="examples/FireEagleExample/FireEagleTest.mdp" />
+    <Entry filename="src/OAuth/OAuth.mdp" />
+    <Entry filename="src/OAuthCli/OAuthCli.mdp" />
+    <Entry filename="src/OAuthXmpp/OAuthXmpp.mdp" />
+    <Entry filename="examples/Examples.mds" />
   </Entries>
 </Combine>

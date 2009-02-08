@@ -1,0 +1,16 @@
+<Combine name="Examples" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="FireEagleExample" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="FireEagleExample" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="FireEagleExample" single="True">
+    <Execute type="None" entry="FireEagleExample" />
+  </StartMode>
+  <Entries>
+    <Entry filename="FireEagleExample/FireEagleTest.mdp" />
+  </Entries>
+</Combine>
