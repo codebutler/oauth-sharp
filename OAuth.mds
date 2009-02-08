@@ -23,6 +23,6 @@
     <Entry filename="OAuth/OAuth.mdp" />
     <Entry filename="OAuthCli/OAuthCli.mdp" />
     <Entry filename="OAuthXmpp/OAuthXmpp.mdp" />
-    <Entry filename="FireEagleTest/FireEagleTest.mdp" />
+    <Entry filename="examples/FireEagleExample/FireEagleTest.mdp" />
   </Entries>
 </Combine>
