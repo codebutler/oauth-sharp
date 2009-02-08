@@ -39,6 +39,7 @@ namespace OAuth.RequestProxies
 		{
 			s_AvailableProxies = new Dictionary<Type, Type>();
 			s_AvailableProxies.Add(typeof(Dictionary<string, object>), typeof(MockRequestProxy));
+			s_AvailableProxies.Add(typeof(System.Net.HttpWebRequest), typeof(HttpWebRequestProxy));
 		}
 		
 		public static void RegisterProxyType (Type objectType, Type proxyType)
@@ -48,13 +49,31 @@ namespace OAuth.RequestProxies
 	
 		public static IRequestProxy CreateProxy (object obj)
 		{
+			return CreateProxy(obj, null);
+		}
+		
+		public static IRequestProxy CreateProxy (object obj, Dictionary<string, string> parameters)
+		{		
 			Type objectType = obj.GetType();
-			if (s_AvailableProxies.ContainsKey(objectType)) {
-				Type proxyType = s_AvailableProxies[objectType];
-				return (IRequestProxy)Activator.CreateInstance(proxyType, obj);
+			Type proxyType = FindProxyType(objectType);
+			if (proxyType != null) {
+				if (parameters == null)
+					return (IRequestProxy)Activator.CreateInstance(proxyType, obj);
+				else
+					return (IRequestProxy)Activator.CreateInstance(proxyType, obj, parameters);
 			} else {
 				throw new Exception("No proxy available for type: " + objectType);
 			}
+		}
+		
+		static Type FindProxyType (Type objectType)
+		{
+			foreach (Type type in s_AvailableProxies.Keys) {
+				if (type.IsAssignableFrom(objectType)) {
+					return s_AvailableProxies[type];
+				}
+			}
+			return null;
 		}
 	}
 }

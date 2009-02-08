@@ -1,13 +1,11 @@
 // 
-// IRequestProxy.cs
+// AssemblyInfo.cs
 //  
 // Copyright (C) 2009 Eric Butler
 // 
 // Authors:
 //   Eric Butler <eric@extremeboredom.net>
 // 
-// Based on the Ruby OAuth GEM library - http://oauth.rubyforge.org/
-//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
@@ -25,78 +23,29 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
-using System;
-using System.Collections.Generic;
+// Information about this assembly is defined by the following attributes. 
+// Change them to the values specific to your project.
 
-namespace OAuth.RequestProxies
-{
-	public interface IRequestProxy
-	{
-		string OAuthConsumerKey {
-			get;
-		}
-		
-		string OAuthNonce {
-			get;
-		}
-		
-		string OAuthSignature {
-			get;
-		}
-		
-		string OAuthSignatureMethod {
-			get;
-		}
-		
-		string OAuthTimestamp {
-			get;
-		}
-		
-		string OAuthToken {
-			get;
-		}
-		
-		string OAuthVersion {
-			get;
-		}
-		
-		string Method {
-			get;
-		}
-		
-		string Uri {
-			get;
-		}
-		
-		string SignatureBaseString {
-			get;
-		}
-		
-		string NormalizedUri {
-			get;
-		}
-		
-		string NormalizedParameters {
-			get;
-		}
-		
-		IDictionary<string, string> Parameters {
-			get;
-		}
-		
-		IDictionary<string, string> OAuthParameters {
-			get;
-		}
-		
-		IDictionary<string, string> NonOAuthParameters {
-			get;
-		}
-		
-		void Sign (string consumerSecret, string tokenSecret);
-		
-		string GetOAuthHeader (string realm);
-		
-		string GetSignedUri (bool withOAuth);
-	}
-}
+[assembly: AssemblyTitle("OAuthXmpp")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
+// The form "{Major}.{Minor}.*" will automatically update the build and revision,
+// and "{Major}.{Minor}.{Build}.*" will update just the revision.
+
+[assembly: AssemblyVersion("1.0.*")]
+
+// The following attributes are used to specify the signing key for the assembly, 
+// if desired. See the Mono documentation for more information about signing.
+
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]

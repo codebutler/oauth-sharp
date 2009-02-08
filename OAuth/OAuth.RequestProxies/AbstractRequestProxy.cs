@@ -36,25 +36,17 @@ using OAuth.Signatures;
 namespace OAuth.RequestProxies
 {
 	public abstract class AbstractRequestProxy : IRequestProxy
-	{		
-		bool m_IsSigned = false;
-		
+	{
 		public AbstractRequestProxy()
 		{
 			
 		}
 		
-		public string Sign (string consumerSecret, string tokenSecret)
-		{
-			var signature = SignatureFactory.CreateSignature(this, consumerSecret, tokenSecret);
-			Parameters["oauth_signature"] = signature.Base64Signature;
-			m_IsSigned = true;
-			return signature.Base64Signature;
-		}
+		public abstract void Sign (string consumerSecret, string tokenSecret);
 		
 		public bool IsSigned {
 			get {
-				return m_IsSigned;
+				return !String.IsNullOrEmpty(Parameters["oauth_signature"]);
 			}
 		}
 		
@@ -78,6 +70,7 @@ namespace OAuth.RequestProxies
 			}
 		}
 		
+		#region OAuth Parameters
 		public string OAuthConsumerKey {
 			get {
 				return Parameters["oauth_consumer_key"];
@@ -119,6 +112,7 @@ namespace OAuth.RequestProxies
 				return Parameters["oauth_version"];
 			}
 		}
+		#endregion
 		
 		public abstract string Method {
 			get;
@@ -139,7 +133,7 @@ namespace OAuth.RequestProxies
 			get {
 				Uri u = new Uri(Uri);
 				var port = ((u.Scheme.ToLower() == "http" && u.Port != 80) || (u.Scheme.ToLower() == "https" && u.Port != 443)) ? String.Format(":{0}") : String.Empty;
-				return String.Format("{0}://{1}{2}{3}", u.Scheme.ToLower(), u.Host.ToLower(), port);
+				return String.Format("{0}://{1}{2}{3}", u.Scheme.ToLower(), u.Host.ToLower(), u.AbsolutePath, port);
 			}
 		}
 		
@@ -151,6 +145,7 @@ namespace OAuth.RequestProxies
 			get {
 				return Parameters
 					.Where(entry => Constants.OAUTH_PARAMETERS.Contains(entry.Key))
+					.Where(entry => !String.IsNullOrEmpty(entry.Value))
 					.ToDictionary(entry => entry.Key, entry => entry.Value);
 			}
 		}
@@ -159,6 +154,7 @@ namespace OAuth.RequestProxies
 			get {
 				return Parameters
 					.Where(entry => !Constants.OAUTH_PARAMETERS.Contains(entry.Key))
+					.Where(entry => !String.IsNullOrEmpty(entry.Value))
 					.ToDictionary(entry => entry.Key, entry => entry.Value);
 			}
 		}
@@ -173,8 +169,17 @@ namespace OAuth.RequestProxies
 		
 		public string NormalizedParameters {
 			get {
-				return Helper.Normalize(ParametersForSignature);
+				var parameters = ParametersForSignature
+					.Where(entry => !String.IsNullOrEmpty(entry.Value))
+					.ToDictionary(entry => entry.Key, entry => entry.Value);
+				
+				return Helper.Normalize(parameters);
 			}
+		}
+		
+		protected string CreateSignature (string consumerSecret, string tokenSecret)	
+		{
+			return SignatureFactory.CreateSignature(this, consumerSecret, tokenSecret).Base64Signature;
 		}
 	}
 }

@@ -57,5 +57,16 @@ namespace OAuth
 		{
 			return String.Join("&", parameters.OrderBy(param => param.Key).Select(param => String.Format("{0}={1}", UrlEncode(param.Key), UrlEncode(param.Value))).ToArray());
 		}
+		
+		public static string GenerateNonce ()
+		{
+			return Guid.NewGuid().ToString().Replace("-", String.Empty);
+		}
+		
+		public static string GenerateTimestamp ()
+		{
+			var span = (DateTime.UtcNow - new DateTime(1970, 1, 1));
+			return Convert.ToInt64(span.TotalSeconds).ToString();
+		}
 	}
 }

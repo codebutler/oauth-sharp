@@ -186,19 +186,19 @@ namespace OAuthCli
 				{ "secret=", "Specifies the token secret to use.",
 				  v => m_Options["oauth_token_secret"] = v },
 				
-				{ "timestamp=", "",
+				{ "timestamp=", "Specifies the timestamp to use.",
 				  v => m_Options["oauth_timestamp"] = v },
 				
-				{ "token=", "",
+				{ "token=", "Specifies the token to use.",
 				  v => m_Options["oauth_token"] = v },
 				
-				{ "realm=", "",
+				{ "realm=", "Specifies the realm to use.",
 				  v => m_Options["realm"] = v },
 				
-				{ "uri=", "",
+				{ "uri=", "Specifies the URI to use when signing.",
 				  v => m_Options["uri"] = v },
 				
-				{ "version=", "",
+				{ "version=", "Specifies the OAuth version to use.",
 				  v => m_Options["version"] = v },
 				
 				{ "xmpp", "Generate XMPP stanzas.",
@@ -256,9 +256,9 @@ namespace OAuthCli
 		void ShowHelp (OptionSet optionSet)
 		{
 			Console.WriteLine ("Usage: oauth [OPTIONS] <command>");
-	        Console.WriteLine ();
-	        Console.WriteLine ("Options:");
-	        optionSet.WriteOptionDescriptions (Console.Out);
+			Console.WriteLine ();
+			Console.WriteLine ("Options:");
+			optionSet.WriteOptionDescriptions (Console.Out);
 			Console.WriteLine("Available commands:");
 			foreach (var command in SUPPORTED_COMMANDS) {
 				Console.WriteLine("   " + command);

@@ -1,5 +1,5 @@
 // 
-// MockRequestProxy.cs
+// HttpRequestProxy.cs
 //  
 // Copyright (C) 2009 Eric Butler
 // 
@@ -27,50 +27,71 @@
 // THE SOFTWARE.
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Web;
+using System.Net;
+using System.IO;
 
 namespace OAuth.RequestProxies
 {
-	public class MockRequestProxy : AbstractRequestProxy
-	{		
-		Dictionary<string, object> m_Dict;
+	public class HttpWebRequestProxy : AbstractRequestProxy
+	{
+		HttpWebRequest m_Request;
+		Dictionary<string, string> m_OAuthParams;
 		
-		public MockRequestProxy(Dictionary<string, object> dict)
+		public HttpWebRequestProxy (HttpWebRequest request, Dictionary<string, string> oauthParams)
 		{
-			m_Dict = dict;
-		}
+			m_Request = request;
+			
+			m_OAuthParams = oauthParams;
+		}	
 		
 		public override string Uri {
 			get {
-				return (string)m_Dict["uri"];
+				return m_Request.RequestUri.ToString();
 			}
 		}
 		
 		public override IDictionary<string, string> Parameters {
 			get {
-				return (IDictionary<string,string>)m_Dict["parameters"];
+				var allParameters = new Dictionary<string, string>();
+				
+				var requestParameters = HttpUtility.ParseQueryString(m_Request.RequestUri.Query);
+				foreach (string key in requestParameters) {
+					allParameters.Add(key, requestParameters[key]);
+				}
+				
+				/* FIXME: This doesn't work...
+				if (m_Request.Method == "POST" && m_Request.ContentType == "application/x-www-form-urlencoded") {
+					using (var reader = new StreamReader(m_Request.GetRequestStream())) {
+						string postBody = reader.ReadToEnd();
+						var postParameters = HttpUtility.ParseQueryString(postBody);
+						foreach (string key in postParameters.AllKeys) {
+							allParameters.Add(key, postParameters[key]);
+						}
+					}
+				}
+				*/
+				
+				foreach (var pair in m_OAuthParams) {
+					allParameters.Add(pair.Key, pair.Value);
+				}
+				
+				return allParameters;
 			}
 		}
 		
 		public override string Method {
 			get {
-				return (string)m_Dict["method"];
-			}
-		}		
-		
-		public override string NormalizedUri {
-			get {
-				try {
-					return base.NormalizedUri;
-				} catch {
-					return Uri;
-				}
+				return m_Request.Method;
 			}
 		}
 		
 		public override void Sign (string consumerSecret, string tokenSecret)
 		{
-			Parameters["oauth_signature"] = base.CreateSignature(consumerSecret, tokenSecret);
+			m_OAuthParams["oauth_signature"] = base.CreateSignature(consumerSecret, tokenSecret);			
 		}
 	}
 }
